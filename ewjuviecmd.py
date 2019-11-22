@@ -342,7 +342,6 @@ async def mine(cmd):
 				elif unearthed_item_amount == 2:
 					response += "You unearthed two (2) {}! ".format(item.str_name)
 
-
 				ewstats.change_stat(user = user_data, metric = ewcfg.stat_lifetime_poudrins, n = unearthed_item_amount)
 
 				ewutils.logMsg('{} has found {} {}(s)!'.format(cmd.message.author.display_name, item.str_name, unearthed_item_amount))

@@ -396,6 +396,10 @@ cmd_map = {
 	ewcfg.cmd_pesticide: ewfarm.cultivate,
 	ewcfg.cmd_mill: ewfarm.mill,
 
+	# Praying at Endless War
+
+	ewcfg.cmd_pray: ewcmd.pray,
+
 	# Fishing
 	ewcfg.cmd_cast: ewfish.cast,
 	ewcfg.cmd_reel: ewfish.reel,

@@ -636,6 +636,7 @@ cmd_rip = cmd_prefix + 'rip'
 cmd_reap = cmd_prefix + 'reap'
 cmd_sow = cmd_prefix + 'sow'
 cmd_check_farm = cmd_prefix + 'checkfarm'
+cmd_pray = cmd_prefix + 'pray'
 cmd_irrigate = cmd_prefix + 'irrigate'
 cmd_weed = cmd_prefix + 'weed'
 cmd_fertilize = cmd_prefix + 'fertilize'
@@ -1728,6 +1729,7 @@ cause_burning = 10
 cause_killing_enemy = 11
 cause_weather = 12
 cause_cliff = 13
+cause_blessing = 14
 
 # List of user statistics that reset to 0 on death
 stats_clear_on_death = [

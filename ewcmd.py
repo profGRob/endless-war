@@ -415,6 +415,57 @@ async def endlesswar(cmd):
 	await ewutils.send_message(cmd.client, cmd.message.channel, ewutils.formatMessage(cmd.message.author, "ENDLESS WAR has amassed {:,} slime.".format(totalslimes)))
 
 
+async def pray(cmd):
+	user_data = EwUser(member=cmd.message.author)
+	client = ewutils.get_client()
+	server = client.get_server(user_data.id_server)
+	resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
+	user_data = EwUser(member=cmd.message.author)
+	# Generates a random integer from 1 to 100. If it is below the prob of poudrin, the player gets a poudrin.
+	# If the random integer is above prob of poudrin but below probofpoud+probofdeath, then the player dies. Else,
+	# the player is blessed with a response from EW.
+	probabilityofpoudrin = 10
+	probabilityofdeath = 10
+	diceroll = random.randint(1, 100)
+	# Insert EW responses in the list below. One will be selected at random when the player prays and receives a reply.
+	potentialreplies = ["StockReplyText1.", "StockReplyText2."]
+	if diceroll < probabilityofpoudrin:
+
+		item = (ewcfg.item_list, 0)
+
+		item_props = ewitem.gen_item_props(item)
+
+		ewitem.item_create(
+			item_type=item.item_type,
+			id_user=cmd.message.author.id,
+			id_server=cmd.message.server.id,
+			item_props=item_props
+		)
+
+		ewitem.give_item(id_user=cmd.message.author.id, id_server=cmd.message.server.id, id_item=ewcfg.item_id_slimepoudrin)
+
+		ewstats.change_stat(user=user_data, metric=ewcfg.stat_lifetime_poudrins, n=1)
+
+		response = "StockReceivedPoudrinText"
+	elif diceroll < (probabilityofpoudrin + probabilityofdeath):
+		# Kill player
+		user_data.die(cause=ewcfg.cause_blessing)
+		# user_data.change_slimes(n = -slimes_dropped / 10, source = ewcfg.source_ghostification)
+
+		deathreport = "StockDeathReport"
+		resp_cont.add_channel_response(ewcfg.channel_sewers, deathreport)
+
+		# user_data.trauma = ""   I am unsure if this is necessary.
+
+		user_data.persist()
+		await ewrolemgr.updateRoles(client=client, member=server.get_member(user_data.id_user))
+		response = "StockReceivedDeathText"
+	else:
+		replytext = potentialreplies[random.randint(0, len(potentialreplies))]
+		response = replytext
+	return response
+
+
 def weather_txt(id_server):
 	response = ""
 	market_data = EwMarket(id_server = id_server)
