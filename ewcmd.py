@@ -461,7 +461,7 @@ async def pray(cmd):
 		await ewrolemgr.updateRoles(client=client, member=server.get_member(user_data.id_user))
 		response = "StockReceivedDeathText"
 	else:
-		replytext = potentialreplies[random.randint(0, len(potentialreplies))]
+		replytext = potentialreplies[random.randint(0, len(potentialreplies)-1)]
 		response = replytext
 	return response
 
