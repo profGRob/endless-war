@@ -435,7 +435,7 @@ async def pray(cmd):
 				ewitem.item_create(
 					item_type=ewcfg.it_item,
 					id_user=user_data.id_user,
-					id_server=server,
+					id_server=user_data.id_server,
 					item_props={
 						'id_item': item.id_item,
 						'context': item.context,
@@ -463,7 +463,7 @@ async def pray(cmd):
 	else:
 		replytext = potentialreplies[random.randint(0, len(potentialreplies)-1)]
 		response = replytext
-	return response
+	await ewutils.send_message(cmd.client, cmd.message.channel, response)
 
 
 def weather_txt(id_server):
