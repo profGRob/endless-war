@@ -420,7 +420,6 @@ async def pray(cmd):
 	client = ewutils.get_client()
 	server = client.get_server(user_data.id_server)
 	resp_cont = ewutils.EwResponseContainer(id_server=user_data.id_server)
-	user_data = EwUser(member=cmd.message.author)
 	# Generates a random integer from 1 to 100. If it is below the prob of poudrin, the player gets a poudrin.
 	# If the random integer is above prob of poudrin but below probofpoud+probofdeath, then the player dies. Else,
 	# the player is blessed with a response from EW.
@@ -430,21 +429,22 @@ async def pray(cmd):
 	# Insert EW responses in the list below. One will be selected at random when the player prays and receives a reply.
 	potentialreplies = ["StockReplyText1.", "StockReplyText2."]
 	if diceroll < probabilityofpoudrin:
-
-		item = (ewcfg.item_list, 0)
-
-		item_props = ewitem.gen_item_props(item)
-
-		ewitem.item_create(
-			item_type=item.item_type,
-			id_user=cmd.message.author.id,
-			id_server=cmd.message.server.id,
-			item_props=item_props
-		)
-
-		ewitem.give_item(id_user=cmd.message.author.id, id_server=cmd.message.server.id, id_item=ewcfg.item_id_slimepoudrin)
-
-		ewstats.change_stat(user=user_data, metric=ewcfg.stat_lifetime_poudrins, n=1)
+		item = random.choice(ewcfg.mine_results)
+		for item in ewcfg.item_list:
+			if item.context == "poudrin":
+				ewitem.item_create(
+					item_type=ewcfg.it_item,
+					id_user=user_data.id_user,
+					id_server=server,
+					item_props={
+						'id_item': item.id_item,
+						'context': item.context,
+						'item_name': item.str_name,
+						'item_desc': item.str_desc,
+					}
+				),
+				item = EwItem(id_item=item.id_item)
+				item.persist()
 
 		response = "StockReceivedPoudrinText"
 	elif diceroll < (probabilityofpoudrin + probabilityofdeath):
