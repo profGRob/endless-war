@@ -423,6 +423,7 @@ async def pray(cmd):
 	# Generates a random integer from 1 to 100. If it is below the prob of poudrin, the player gets a poudrin.
 	# If the random integer is above prob of poudrin but below probofpoud+probofdeath, then the player dies. Else,
 	# the player is blessed with a response from EW.
+	#This is a test.
 	probabilityofpoudrin = 10
 	probabilityofdeath = 10
 	diceroll = random.randint(1, 100)
